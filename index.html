@@ -4,6 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#176b45">
+<meta name="description" content="Create milk indents and calculate your milk bill.">
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" href="./icons/milk-app.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./icons/milk-app.svg">
 <title>Milk Indent & My Bill</title>
 <style>
 :root{--green:#176b45;--green2:#e9f5ee;--ink:#17231c;--muted:#65736a;--line:#dce6df;--bg:#f5f8f6;--white:#fff;--red:#a33a2b}
@@ -288,6 +292,11 @@ footer{text-align:center;color:var(--muted);font-size:.82rem;padding:0 16px 24px
   });
   renderIndent();
 })();
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("./service-worker.js").catch(err => console.warn("Service worker registration failed", err)));
+}
 </script>
 </body>
 </html>
