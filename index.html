@@ -100,9 +100,8 @@ main{padding:16px 14px 30px}
     brands.forEach(brand=>{
       const card=document.createElement("article");card.className="brand";
       const head=document.createElement("div");head.className="brand-head";
-      const img=document.createElement("img");img.src=brand.image;img.alt=brand.name+" milk products";
       const title=document.createElement("h2");title.textContent=brand.name;
-      head.append(img,title);card.append(head);
+      head.append(title);card.append(head);
       const body=document.createElement("div");body.className="brand-body";
       const headings=document.createElement("div");headings.className="column-head";
       ["Milk Type","Price/Litre","Taken","Return"].forEach(label=>{const s=document.createElement("span");s.textContent=label;headings.append(s);});
@@ -110,7 +109,7 @@ main{padding:16px 14px 30px}
       brand.types.forEach(type=>{
         const d=get(brand.name,type);
         const row=document.createElement("div");row.className="milk-row";
-        const name=document.createElement("div");name.className="milk-name";const productImg=document.createElement("img");productImg.src=productImages[brand.name]?.[type]||brand.image;productImg.alt=brand.name+" "+type+" milk";const label=document.createElement("span");label.textContent=type;name.append(productImg,label);row.append(name);
+        const name=document.createElement("div");name.className="milk-name";const productImg=document.createElement("img");productImg.src=productImages[brand.name]?.[type]||"";productImg.alt=brand.name+" "+type+" milk";const label=document.createElement("span");label.textContent=type;name.append(productImg,label);row.append(name);
         [["price","Price per litre","0.00"],["taken","Taken in litres","0"],["returned","Returned in litres","0"]].forEach(([field,label,placeholder])=>{
           const input=document.createElement("input");input.type="number";input.min="0";input.step="0.01";input.inputMode="decimal";input.placeholder=placeholder;input.value=d[field]||"";input.setAttribute("aria-label",brand.name+" "+type+" "+label);
           input.addEventListener("input",()=>{if(!values[key(brand.name,type)])values[key(brand.name,type)]={price:"",taken:"",returned:""};values[key(brand.name,type)][field]=input.value;save();calculate();});
