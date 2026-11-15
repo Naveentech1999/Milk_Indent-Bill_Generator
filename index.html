@@ -3,19 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#176b45">
+<meta name="theme-color" content="#ef6c00">
 <meta name="description" content="Create milk indents and calculate your milk bill.">
 <link rel="manifest" href="./manifest.json">
 <link rel="icon" href="./icons/milk-app.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="./icons/milk-app.svg">
 <title>Milk Indent & My Bill</title>
 <style>
-:root{--green:#176b45;--green2:#e9f5ee;--ink:#17231c;--muted:#65736a;--line:#dce6df;--bg:#f5f8f6;--white:#fff;--red:#a33a2b}
+:root{--green:#ef6c00;--green2:#fff0e0;--ink:#2b2118;--muted:#76685d;--line:#f0d9c5;--bg:#fff8f2;--white:#fff;--red:#a33a2b}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
 header{background:var(--green);color:white;padding:22px 16px}header .wrap,main{max-width:980px;margin:auto}h1{font-size:clamp(1.5rem,4vw,2rem);margin:0 0 4px}header p{margin:0;opacity:.9}
 main{padding:18px 14px 40px}.tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}.tab{border:1px solid var(--line);background:white;color:var(--green);padding:10px 16px;border-radius:999px;font-weight:700;cursor:pointer}.tab.active{background:var(--green);color:white;border-color:var(--green)}
-.panel{background:white;border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:16px;box-shadow:0 3px 14px #193b2510}.panel h2{margin:0 0 4px;font-size:1.2rem}.sub{color:var(--muted);font-size:.92rem;margin:0 0 14px}
-.brand-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}.brand{border:1px solid var(--line);border-radius:12px;overflow:hidden}.brand h3{margin:0;background:var(--green2);padding:10px 12px;color:var(--green);font-size:1rem}.brand-body{padding:8px 12px}.milk-row{display:grid;grid-template-columns:1fr 100px;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid #eef2ef}.milk-row:last-child{border-bottom:0}.milk-row label{font-weight:600}.milk-row small{display:block;color:var(--muted);font-weight:400}.milk-row input,.rate-input,.taken-input{width:100%;padding:9px;border:1px solid #cbd8cf;border-radius:8px;font:inherit;background:#fff}.milk-row input{text-align:right}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.btn{border:0;border-radius:10px;padding:11px 15px;font:700  .95rem system-ui;cursor:pointer}.primary{background:var(--green);color:#fff}.secondary{background:#edf3ef;color:#214b35;border:1px solid var(--line)}.danger{background:#fff1ef;color:var(--red);border:1px solid #f0d2cc}.note{font-size:.88rem;color:var(--muted);margin-top:10px}.hidden{display:none!important}.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:14px 0}.metric{background:#f7faf8;border:1px solid var(--line);border-radius:12px;padding:12px}.metric span{display:block;color:var(--muted);font-size:.85rem}.metric strong{font-size:1.25rem;display:block;margin-top:3px}.bill-table{width:100%;border-collapse:collapse;font-size:.94rem}.bill-table th,.bill-table td{padding:9px 7px;border-bottom:1px solid var(--line);text-align:left}.bill-table th{color:var(--muted);font-size:.82rem}.bill-table td.num,.bill-table th.num{text-align:right}.bill-table input{max-width:105px;text-align:right;padding:7px}.table-wrap{overflow-x:auto}.total-row{font-weight:800}.pill{display:inline-block;background:#e9f5ee;color:var(--green);padding:3px 8px;border-radius:999px;font-size:.8rem;font-weight:700}.toast{margin-top:10px;color:var(--green);font-weight:600;min-height:1.4em}
+.panel{background:white;border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:16px;box-shadow:0 3px 14px #6b3b1710}.panel h2{margin:0 0 4px;font-size:1.2rem}.sub{color:var(--muted);font-size:.92rem;margin:0 0 14px}
+.brand-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}.brand{border:1px solid var(--line);border-radius:12px;overflow:hidden}.brand h3{margin:0;background:var(--green2);padding:10px 12px;color:var(--green);font-size:1rem}.brand-body{padding:8px 12px}.milk-row{display:grid;grid-template-columns:1fr 100px;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid #f8e9dc}.milk-row:last-child{border-bottom:0}.milk-row label{font-weight:600}.milk-row small{display:block;color:var(--muted);font-weight:400}.milk-row input,.rate-input,.taken-input{width:100%;padding:9px;border:1px solid #e7c9ae;border-radius:8px;font:inherit;background:#fff}.milk-row input{text-align:right}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.btn{border:0;border-radius:10px;padding:11px 15px;font:700  .95rem system-ui;cursor:pointer}.primary{background:var(--green);color:#fff}.secondary{background:#fff0e0;color:#8a3f00;border:1px solid var(--line)}.danger{background:#fff1ef;color:var(--red);border:1px solid #f0d2cc}.note{font-size:.88rem;color:var(--muted);margin-top:10px}.hidden{display:none!important}.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:14px 0}.metric{background:#fffaf5;border:1px solid var(--line);border-radius:12px;padding:12px}.metric span{display:block;color:var(--muted);font-size:.85rem}.metric strong{font-size:1.25rem;display:block;margin-top:3px}.bill-table{width:100%;border-collapse:collapse;font-size:.94rem}.bill-table th,.bill-table td{padding:9px 7px;border-bottom:1px solid var(--line);text-align:left}.bill-table th{color:var(--muted);font-size:.82rem}.bill-table td.num,.bill-table th.num{text-align:right}.bill-table input{max-width:105px;text-align:right;padding:7px}.table-wrap{overflow-x:auto}.total-row{font-weight:800}.pill{display:inline-block;background:#fff0e0;color:var(--green);padding:3px 8px;border-radius:999px;font-size:.8rem;font-weight:700}.toast{margin-top:10px;color:var(--green);font-weight:600;min-height:1.4em}
 footer{text-align:center;color:var(--muted);font-size:.82rem;padding:0 16px 24px}
 @media(max-width:520px){.panel{padding:12px}.bill-table{min-width:650px}.btn{flex:1 1 140px}}
 </style>
@@ -125,7 +125,7 @@ footer{text-align:center;color:var(--muted);font-size:.82rem;padding:0 16px 24px
         function qtyCell(field,placeholder,aria){
           const td=cell("","num"),input=document.createElement("input");
           input.type="number";input.min="0";input.step=unit==="pcs"?"1":"0.5";input.placeholder=placeholder;input.value=d[field]||"";
-          input.style.width="76px";input.style.padding="6px";input.style.border="1px solid #cbd8cf";input.style.borderRadius="7px";input.style.font="inherit";
+          input.style.width="76px";input.style.padding="6px";input.style.border="1px solid #e7c9ae";input.style.borderRadius="7px";input.style.font="inherit";
           input.setAttribute("aria-label",`${b} ${t} ${aria}`);
           input.addEventListener("input",()=>{ensure(b,t)[field]=input.value;save();updateBill();});
           td.appendChild(input);
@@ -182,25 +182,25 @@ footer{text-align:center;color:var(--muted);font-size:.82rem;padding:0 16px 24px
     const h=head+visible.reduce((n,g)=>n+brandH+g.items.length*rowH+gap,0)+150;
     canvas.width=width;canvas.height=Math.max(h,260);
     ctx.fillStyle="#fff";ctx.fillRect(0,0,width,canvas.height);
-    ctx.fillStyle="#176b45";ctx.fillRect(0,0,width,head);
+    ctx.fillStyle="#ef6c00";ctx.fillRect(0,0,width,head);
     ctx.fillStyle="#fff";ctx.font="bold 26px Arial";ctx.fillText("MY BILL",pad,36);
     ctx.font="15px Arial";ctx.fillText(new Date().toLocaleDateString("en-IN"),pad,64);
     let y=head+8;
     visible.forEach(g=>{
-      ctx.fillStyle="#e9f5ee";ctx.fillRect(pad,y,width-2*pad,brandH);
-      ctx.fillStyle="#176b45";ctx.font="bold 17px Arial";ctx.fillText(g.brand,pad+10,y+23);y+=brandH;
+      ctx.fillStyle="#fff0e0";ctx.fillRect(pad,y,width-2*pad,brandH);
+      ctx.fillStyle="#ef6c00";ctx.font="bold 17px Arial";ctx.fillText(g.brand,pad+10,y+23);y+=brandH;
       g.items.forEach(i=>{
-        ctx.fillStyle="#17231c";ctx.font="14px Arial";
+        ctx.fillStyle="#2b2118";ctx.font="14px Arial";
         const qty=`${i.net} ${i.unit}`;
         ctx.fillText(`${i.type}: ${qty} ( +${i.extra} / -${i.returned} )`,pad+12,y+18);
         ctx.textAlign="right";ctx.fillText(rupee(i.value),width-pad-10,y+18);ctx.textAlign="left";y+=rowH;
       });
       ctx.font="bold 14px Arial";ctx.textAlign="right";ctx.fillText(`${g.brand} total: ${rupee(g.total)}`,width-pad-10,y+4);ctx.textAlign="left";y+=gap+8;
     });
-    y+=10;ctx.strokeStyle="#dce6df";ctx.beginPath();ctx.moveTo(pad,y);ctx.lineTo(width-pad,y);ctx.stroke();y+=26;
-    ctx.fillStyle="#17231c";ctx.font="16px Arial";ctx.fillText(`Total milk value: ${rupee(st.milkValue)}`,pad,y);y+=25;
+    y+=10;ctx.strokeStyle="#f0d9c5";ctx.beginPath();ctx.moveTo(pad,y);ctx.lineTo(width-pad,y);ctx.stroke();y+=26;
+    ctx.fillStyle="#2b2118";ctx.font="16px Arial";ctx.fillText(`Total milk value: ${rupee(st.milkValue)}`,pad,y);y+=25;
     ctx.fillText(`Commission: ${st.litres} L × ₹5 = ${rupee(st.commission)}`,pad,y);y+=30;
-    ctx.fillStyle="#176b45";ctx.font="bold 21px Arial";ctx.fillText(`FINAL TOTAL: ${rupee(st.final)}`,pad,y);
+    ctx.fillStyle="#ef6c00";ctx.font="bold 21px Arial";ctx.fillText(`FINAL TOTAL: ${rupee(st.final)}`,pad,y);
     return canvas;
   }
   function indentLines(){
@@ -217,27 +217,27 @@ footer{text-align:center;color:var(--muted);font-size:.82rem;padding:0 16px 24px
     const contentHeight=groups.reduce((sum,g)=>sum+brandH+g.items.length*rowH+gapH,0);
     canvas.width=width;canvas.height=headH+Math.max(contentHeight,70)+summaryH+pad;
     ctx.fillStyle="#ffffff";ctx.fillRect(0,0,canvas.width,canvas.height);
-    ctx.fillStyle="#176b45";ctx.fillRect(0,0,width,headH);
+    ctx.fillStyle="#ef6c00";ctx.fillRect(0,0,width,headH);
     ctx.fillStyle="#ffffff";ctx.font="bold 25px Arial";ctx.fillText("MILK INDENT",pad,34);
     ctx.font="14px Arial";ctx.fillText(new Date().toLocaleDateString("en-IN"),pad,58);
     let y=headH+8;
     if(!groups.length){
-      ctx.fillStyle="#17231c";ctx.font="16px Arial";ctx.fillText("No quantities entered",pad,y+22);
+      ctx.fillStyle="#2b2118";ctx.font="16px Arial";ctx.fillText("No quantities entered",pad,y+22);
     }
     groups.forEach((g,gi)=>{
-      ctx.fillStyle="#e9f5ee";ctx.fillRect(pad,y,width-pad*2,brandH);
-      ctx.fillStyle="#176b45";ctx.font="bold 16px Arial";ctx.fillText(g.brand,pad+10,y+21);
+      ctx.fillStyle="#fff0e0";ctx.fillRect(pad,y,width-pad*2,brandH);
+      ctx.fillStyle="#ef6c00";ctx.font="bold 16px Arial";ctx.fillText(g.brand,pad+10,y+21);
       y+=brandH;
       g.items.forEach((line,i)=>{
         ctx.fillStyle=i%2===0?"#fbfdfb":"#ffffff";ctx.fillRect(pad,y,width-pad*2,rowH);
-        ctx.fillStyle="#17231c";ctx.font="14px Arial";ctx.fillText(line.type,pad+12,y+17);
+        ctx.fillStyle="#2b2118";ctx.font="14px Arial";ctx.fillText(line.type,pad+12,y+17);
         ctx.textAlign="right";ctx.font="bold 14px Arial";ctx.fillText(`${line.litres} ${line.unit}`,width-pad-12,y+17);ctx.textAlign="left";
         y+=rowH;
       });
       y+=gapH;
     });
-    ctx.strokeStyle="#dce6df";ctx.beginPath();ctx.moveTo(pad,y+2);ctx.lineTo(width-pad,y+2);ctx.stroke();
-    ctx.fillStyle="#17231c";ctx.font="bold 17px Arial";
+    ctx.strokeStyle="#f0d9c5";ctx.beginPath();ctx.moveTo(pad,y+2);ctx.lineTo(width-pad,y+2);ctx.stroke();
+    ctx.fillStyle="#2b2118";ctx.font="bold 17px Arial";
     ctx.fillText(`TOTAL LITRES: ${totalLitres.toLocaleString("en-IN")} L`,pad,y+27);
     if(totalPieces>0){ctx.textAlign="right";ctx.fillText(`TOTAL PIECES: ${totalPieces.toLocaleString("en-IN")} pcs`,width-pad,y+27);ctx.textAlign="left";}
     return canvas;
