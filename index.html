@@ -60,6 +60,12 @@ main{padding:16px 14px 30px}
     {name:"Amul",image:"./product-images/amul-products.webp",types:["TM","A2","Gold"],prices:{TM:62,A2:90,Gold:78}},
     {name:"Jersey",image:"./product-images/jersey-products.webp",types:["TM","WM"],prices:{TM:66,WM:90}}
   ];
+  const productImages = {
+    Heritage:{TM:"./product-images/heritage-tm.webp",CM:"./product-images/heritage-cm.webp",SM:"./product-images/heritage-sm.webp",WM:"./product-images/heritage-wm.webp",Small:"./product-images/heritage-small.webp"},
+    Vijaya:{TM:"./product-images/vijaya-tm.webp",CM:"./product-images/vijaya-cm.webp",SM:"./product-images/vijaya-sm.webp",WM:"./product-images/vijaya-wm.webp"},
+    Amul:{TM:"./product-images/amul-tm.webp",A2:"./product-images/amul-a2.webp",Gold:"./product-images/amul-gold.webp"},
+    Jersey:{TM:"./product-images/jersey-tm.webp",WM:"./product-images/jersey-wm.webp"}
+  };
   const storageKey="milkIndentCalculator.v2";
   let values={};
   try{values=JSON.parse(localStorage.getItem(storageKey)||"{}")||{};}catch(e){values={};}
@@ -104,7 +110,7 @@ main{padding:16px 14px 30px}
       brand.types.forEach(type=>{
         const d=get(brand.name,type);
         const row=document.createElement("div");row.className="milk-row";
-        const name=document.createElement("div");name.className="milk-name";const productImg=document.createElement("img");productImg.src=brand.image;productImg.alt=brand.name+" "+type+" milk";const label=document.createElement("span");label.textContent=type;name.append(productImg,label);row.append(name);
+        const name=document.createElement("div");name.className="milk-name";const productImg=document.createElement("img");productImg.src=productImages[brand.name]?.[type]||brand.image;productImg.alt=brand.name+" "+type+" milk";const label=document.createElement("span");label.textContent=type;name.append(productImg,label);row.append(name);
         [["price","Price per litre","0.00"],["taken","Taken in litres","0"],["returned","Returned in litres","0"]].forEach(([field,label,placeholder])=>{
           const input=document.createElement("input");input.type="number";input.min="0";input.step="0.01";input.inputMode="decimal";input.placeholder=placeholder;input.value=d[field]||"";input.setAttribute("aria-label",brand.name+" "+type+" "+label);
           input.addEventListener("input",()=>{if(!values[key(brand.name,type)])values[key(brand.name,type)]={price:"",taken:"",returned:""};values[key(brand.name,type)][field]=input.value;save();calculate();});
