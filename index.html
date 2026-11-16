@@ -21,14 +21,14 @@ main{padding:16px 14px 30px}
 .brand-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 .brand{background:#fff;border:1px solid var(--line);border-radius:15px;overflow:hidden;box-shadow:0 3px 14px #6b3b1710}
 .brand-head{display:flex;align-items:center;gap:12px;background:var(--pale);padding:10px 12px;min-height:84px}
-.brand-head img{display:block;width:76px;height:64px;object-fit:contain;object-position:center;background:#fff;border-radius:9px;padding:3px}
+.brand-head img{display:none}
 .brand-head h2{margin:0;color:var(--orange);font-size:1.15rem}
 .brand-body{padding:10px 12px}
 .column-head,.milk-row{display:grid;grid-template-columns:minmax(75px,1.05fr) repeat(3,minmax(62px,.8fr)) minmax(78px,.9fr);gap:6px;align-items:center}
 .column-head{font-size:.7rem;color:var(--muted);font-weight:700;padding:0 0 7px;text-align:center}
 .milk-row{padding:8px 0;border-top:1px solid #f8e9dc}
 .milk-name{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-weight:700;font-size:.82rem;text-align:center;min-width:0}
-.milk-name img{width:58px;height:66px;object-fit:contain;object-position:center;border-radius:7px;background:#fff;padding:1px}
+.milk-name img{width:76px;height:82px;object-fit:contain;object-position:center;border-radius:8px;background:#fff;padding:2px;image-rendering:auto}
 .milk-row input{width:100%;min-width:0;padding:9px 4px;border:1px solid #e7c9ae;border-radius:8px;font:inherit;text-align:center;background:#fff}
 .milk-row input:focus{outline:2px solid #ffbd80;border-color:var(--orange)}
 .row-amount{font-weight:800;text-align:right;color:#9a4300;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
@@ -43,7 +43,7 @@ main{padding:16px 14px 30px}
 .bill-note strong{color:var(--ink)}
 .note{text-align:center;color:var(--muted);font-size:.82rem;margin:14px 0 0}
 @media(max-width:680px){.brand-grid{grid-template-columns:1fr}.summary{grid-template-columns:1fr}}
-@media(max-width:390px){.column-head,.milk-row{grid-template-columns:minmax(58px,.9fr) repeat(3,minmax(48px,.75fr)) minmax(66px,.85fr);gap:4px}.milk-row input{padding:8px 2px;font-size:.86rem}.brand-body{padding:8px}.milk-name img{width:50px;height:58px}.row-amount{font-size:.84rem}}
+@media(max-width:390px){.column-head,.milk-row{grid-template-columns:minmax(58px,.9fr) repeat(3,minmax(48px,.75fr)) minmax(66px,.85fr);gap:4px}.milk-row input{padding:8px 2px;font-size:.86rem}.brand-body{padding:8px}.milk-name img{width:64px;height:70px}.row-amount{font-size:.84rem}}
 </style>
 </head>
 <body>
@@ -66,12 +66,54 @@ main{padding:16px 14px 30px}
     {name:"Amul",image:"./product-images/amul-products.webp",types:["TM","A2","Gold"],prices:{TM:62,A2:90,Gold:78}},
     {name:"Jersey",image:"./product-images/jersey-products.webp",types:["TM","WM"],prices:{TM:66,WM:90}}
   ];
-  const productImages = {
-    Heritage:{TM:"./product-images/heritage-products.webp",CM:"./product-images/heritage-products.webp",SM:"./product-images/heritage-products.webp",WM:"./product-images/heritage-products.webp",Small:"./product-images/heritage-products.webp"},
-    Vijaya:{TM:"./product-images/vijaya-products.webp",CM:"./product-images/vijaya-products.webp",SM:"./product-images/vijaya-products.webp",WM:"./product-images/vijaya-products.webp"},
-    Amul:{TM:"./product-images/amul-products.webp",A2:"./product-images/amul-products.webp",Gold:"./product-images/amul-products.webp"},
-    Jersey:{TM:"./product-images/jersey-products.webp",WM:"./product-images/jersey-products.webp"}
+  const productImageFiles = {
+    Heritage:{TM:"heritage-tm.webp",CM:"heritage-cm.webp",SM:"heritage-sm.webp",WM:"heritage-wm.webp",Small:"heritage-small.webp"},
+    Vijaya:{TM:"vijaya-tm.webp",CM:"vijaya-cm.webp",SM:"vijaya-sm.webp",WM:"vijaya-wm.webp"},
+    Amul:{TM:"amul-tm.webp",A2:"amul-a2.webp",Gold:"amul-gold.webp"},
+    Jersey:{TM:"jersey-tm.webp",WM:"jersey-wm.webp"}
   };
+  const productImageUrls = {};
+  async function loadIndividualProductImages(){
+    try{
+      const response=await fetch("./product-images/clear-individual-milk-images.zip");
+      if(!response.ok)throw new Error("Could not load the individual milk image archive");
+      const buffer=await response.arrayBuffer();
+      const view=new DataView(buffer);
+      let end=-1;
+      for(let p=buffer.byteLength-22;p>=Math.max(0,buffer.byteLength-65558);p--){
+        if(view.getUint32(p,true)===0x06054b50){end=p;break;}
+      }
+      if(end<0)throw new Error("Image archive directory was not found");
+      const count=view.getUint16(end+10,true);
+      let p=view.getUint32(end+16,true);
+      for(let i=0;i<count;i++){
+        if(view.getUint32(p,true)!==0x02014b50)break;
+        const method=view.getUint16(p+10,true);
+        const compressedSize=view.getUint32(p+20,true);
+        const nameLength=view.getUint16(p+28,true);
+        const extraLength=view.getUint16(p+30,true);
+        const commentLength=view.getUint16(p+32,true);
+        const localOffset=view.getUint32(p+42,true);
+        const name=new TextDecoder().decode(new Uint8Array(buffer,p+46,nameLength));
+        const localNameLength=view.getUint16(localOffset+26,true);
+        const localExtraLength=view.getUint16(localOffset+28,true);
+        const dataStart=localOffset+30+localNameLength+localExtraLength;
+        const compressed=buffer.slice(dataStart,dataStart+compressedSize);
+        let imageBytes;
+        if(method===0)imageBytes=compressed;
+        else if(method===8){
+          const stream=new Blob([compressed]).stream().pipeThrough(new DecompressionStream("deflate-raw"));
+          imageBytes=await new Response(stream).arrayBuffer();
+        }else throw new Error("Unsupported image archive compression");
+        productImageUrls[name]=URL.createObjectURL(new Blob([imageBytes],{type:"image/webp"}));
+        p+=46+nameLength+extraLength+commentLength;
+      }
+      document.querySelectorAll("img[data-product-file]").forEach(img=>{
+        const url=productImageUrls[img.dataset.productFile];
+        if(url){img.src=url;img.classList.add("image-ready");}
+      });
+    }catch(error){console.error("Individual product images could not be loaded:",error);}
+  }
   const storageKey="milkIndentCalculator.v3";
   let values={};
   try{values=JSON.parse(localStorage.getItem(storageKey)||"{}")||{};}catch(e){values={};}
@@ -112,9 +154,8 @@ main{padding:16px 14px 30px}
     brands.forEach(brand=>{
       const card=document.createElement("article");card.className="brand";
       const head=document.createElement("div");head.className="brand-head";
-      const brandImg=document.createElement("img");brandImg.src=brand.image;brandImg.alt=brand.name+" milk products";brandImg.loading="lazy";brandImg.decoding="async";
       const title=document.createElement("h2");title.textContent=brand.name;
-      head.append(brandImg,title);card.append(head);
+      head.append(title);card.append(head);
       const body=document.createElement("div");body.className="brand-body";
       const headings=document.createElement("div");headings.className="column-head";
       ["Milk Type","Price/Litre","Taken (L)","Return (L)","Amount"].forEach(label=>{const s=document.createElement("span");s.textContent=label;headings.append(s);});
@@ -123,7 +164,7 @@ main{padding:16px 14px 30px}
         const d=get(brand.name,type);
         const row=document.createElement("div");row.className="milk-row";
         const name=document.createElement("div");name.className="milk-name";
-        const productImg=document.createElement("img");productImg.src=productImages[brand.name]?.[type]||brand.image;productImg.alt=brand.name+" "+type+" milk";productImg.loading="lazy";productImg.decoding="async";
+        const productImg=document.createElement("img");productImg.dataset.productFile=productImageFiles[brand.name]?.[type]||"";productImg.alt=brand.name+" "+type+" milk packet";productImg.loading="lazy";productImg.decoding="async";
         const label=document.createElement("span");label.textContent=type;name.append(productImg,label);row.append(name);
         [["price","Price per litre","0.00"],["taken","Taken in litres","0"],["returned","Returned in litres","0"]].forEach(([field,ariaLabel,placeholder])=>{
           const input=document.createElement("input");input.type="number";input.min="0";input.step="0.01";input.inputMode="decimal";input.placeholder=placeholder;input.value=d[field]||"";input.setAttribute("aria-label",brand.name+" "+type+" "+ariaLabel);
@@ -142,6 +183,7 @@ main{padding:16px 14px 30px}
     calculate();
   }
   render();
+  loadIndividualProductImages();
 })();
 </script>
 <script>
