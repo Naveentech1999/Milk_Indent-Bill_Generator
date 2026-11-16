@@ -15,7 +15,13 @@
 header{background:linear-gradient(120deg,var(--navy),var(--navy-2));color:#fff;padding:22px 20px;box-shadow:0 5px 20px #102c3c20}header .wrap,main{max-width:1180px;margin:auto}
 .header-row{display:flex;align-items:center;gap:14px}.app-mark{width:48px;height:48px;flex:0 0 48px;border-radius:15px;background:#ffffff16;display:grid;place-items:center;border:1px solid #ffffff2b}.app-mark svg{width:29px;height:29px}
 h1{font-size:clamp(1.35rem,3vw,1.8rem);letter-spacing:-.035em;margin:0;font-weight:750}header p{margin:4px 0 0;color:#c6d7df;font-size:.9rem}
-main{padding:24px 18px 40px}.brand-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+main{padding:24px 18px 40px}.toolbar{display:flex;align-items:end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px;padding:14px 16px;background:#fff;border:1px solid var(--line);border-radius:15px;box-shadow:0 4px 14px #18384708}
+.date-field{display:flex;flex-direction:column;gap:5px;color:var(--muted);font-size:.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.date-field input{min-width:175px;padding:10px 12px;border:1px solid var(--line);border-radius:9px;color:var(--ink);font:inherit;font-size:.9rem}
+.toolbar-actions{display:flex;gap:9px;flex-wrap:wrap}
+.action-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:9px;padding:10px 14px;font:inherit;font-weight:700;cursor:pointer;min-height:40px}
+.action-btn.clear{background:#f0f3f5;color:#40515b;border:1px solid #dfe6e9}.action-btn.share{background:var(--teal);color:white}.action-btn:hover{filter:brightness(.96)}
+.brand-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
 .brand{background:var(--white);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 5px 18px #1838470a;transition:transform .18s ease,box-shadow .18s ease}.brand:hover{transform:translateY(-2px);box-shadow:0 10px 26px #18384712}
 .brand-head{display:flex;align-items:center;gap:12px;background:#f8fbfc;padding:15px 17px;min-height:68px;border-bottom:1px solid var(--line)}.brand-head:before{content:"";width:4px;height:28px;border-radius:8px;background:var(--teal)}.brand-head h2{margin:0;color:var(--navy);font-size:1.05rem;font-weight:750;letter-spacing:-.015em}
 .brand-body{padding:14px 16px 16px}.column-head,.milk-row{display:grid;grid-template-columns:minmax(84px,1.05fr) repeat(3,minmax(65px,.8fr)) minmax(82px,.9fr);gap:8px;align-items:center}
@@ -35,7 +41,11 @@ main{padding:24px 18px 40px}.brand-grid{display:grid;grid-template-columns:repea
 <body>
 <header><div class="wrap"><div class="header-row"><div class="app-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M11 3h10v5l3 5v13a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2V13l3-5V3Z" stroke="white" stroke-width="1.8" stroke-linejoin="round"/><path d="M11 8h10M9 14h14" stroke="#8ee0d4" stroke-width="1.8" stroke-linecap="round"/><path d="M16 15c-2.5 3.1-4 4.8-4 6.8a4 4 0 0 0 8 0c0-2-1.5-3.7-4-6.8Z" fill="#8ee0d4"/></svg></div><div><h1>Milk Indent &amp; Billing</h1><p>Milk quantities, returns and daily billing — all in one place</p></div></div></div></header>
 <main>
-  <section class="brand-grid" id="brandGrid" aria-label="Milk brand cards"></section>
+  <section class="toolbar" aria-label="Bill date and actions">
+<label class="date-field">Indent / Bill Date<input type="date" id="billDate"></label>
+<div class="toolbar-actions"><button type="button" class="action-btn clear" id="clearLitres">↺ Clear litres &amp; returns</button><button type="button" class="action-btn share" id="shareSummary">▣ Generate &amp; Share Image</button></div>
+</section>
+<section class="brand-grid" id="brandGrid" aria-label="Milk brand cards"></section>
   <section class="summary" aria-label="Bill summary">
     <div class="metric"><span>Milk Subtotal</span><strong id="totalAmount">₹0.00</strong></div>
     <div class="metric"><span>Delivery Commission · Net litres × ₹5</span><strong id="commission">₹0.00</strong></div>
@@ -101,6 +111,13 @@ main{padding:24px 18px 40px}.brand-grid{display:grid;grid-template-columns:repea
     }catch(error){console.error("Individual product images could not be loaded:",error);}
   }
   const storageKey="milkIndentCalculator.v3";
+  const dateKey="milkIndentBillDate.v1";
+  const billDate=document.getElementById("billDate");
+  const localToday=()=>{const d=new Date();return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10);};
+  billDate.value=localStorage.getItem(dateKey)||localToday();
+  billDate.addEventListener("change",()=>localStorage.setItem(dateKey,billDate.value));
+  let latestTotals={brandTotals:{},totalQuantity:0,totalAmount:0,commission:0,netPayable:0};
+
   let values={};
   try{values=JSON.parse(localStorage.getItem(storageKey)||"{}")||{};}catch(e){values={};}
   const money=n=>"₹"+(Number.isFinite(n)?n:0).toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2});
@@ -134,6 +151,8 @@ main{padding:24px 18px 40px}.brand-grid{display:grid;grid-template-columns:repea
     document.getElementById("totalAmount").textContent=money(totalAmount);
     document.getElementById("commission").textContent=money(commission);
     document.getElementById("afterCommission").textContent=money(totalAmount-commission);
+    latestTotals={brandTotals:Object.fromEntries(brands.map(b=>[b.name,{litres:b.types.reduce((s,t)=>s+rowTotals(b.name,t).net,0),amount:b.types.reduce((s,t)=>s+rowTotals(b.name,t).amount,0)}])),totalQuantity,totalAmount,commission,netPayable:totalAmount-commission};
+
   }
   function render(){
     const grid=document.getElementById("brandGrid");
@@ -170,6 +189,75 @@ main{padding:24px 18px 40px}.brand-grid{display:grid;grid-template-columns:repea
   }
   render();
   loadIndividualProductImages();
+
+  document.getElementById("clearLitres").addEventListener("click",()=>{
+    if(!confirm("Clear all Taken and Return litres? Milk prices will be kept."))return;
+    brands.forEach(brand=>brand.types.forEach(type=>{
+      const k=key(brand.name,type);
+      if(!values[k])values[k]={...get(brand.name,type)};
+      values[k].taken="";values[k].returned="";
+    }));
+    document.querySelectorAll(".milk-row input").forEach(input=>{
+      const label=input.getAttribute("aria-label")||"";
+      if(label.includes("Taken in litres")||label.includes("Returned in litres"))input.value="";
+    });
+    save();calculate();
+  });
+  function createSummaryImage(){
+    const canvas=document.createElement("canvas"),ctx=canvas.getContext("2d");
+    canvas.width=1200;canvas.height=1450;
+    const W=canvas.width;
+    ctx.fillStyle="#f3f6f8";ctx.fillRect(0,0,W,canvas.height);
+    ctx.fillStyle="#142b3b";ctx.beginPath();ctx.roundRect(54,48,W-108,220,28);ctx.fill();
+    ctx.fillStyle="#8ee0d4";ctx.font="700 25px Arial";ctx.fillText("MILK INDENT / DAILY BILL",94,105);
+    ctx.fillStyle="#ffffff";ctx.font="700 52px Arial";ctx.fillText("Milk Collection Summary",94,176);
+    ctx.fillStyle="#c6d7df";ctx.font="26px Arial";ctx.fillText("Date: "+(billDate.value||localToday()),96,224);
+    ctx.fillStyle="#ffffff";ctx.beginPath();ctx.roundRect(54,300,W-108,600,26);ctx.fill();
+    ctx.fillStyle="#142b3b";ctx.font="700 30px Arial";ctx.fillText("BRAND-WISE NET LITRES",94,365);
+    let y=440;
+    brands.forEach(brand=>{
+      const b=latestTotals.brandTotals[brand.name]||{litres:0};
+      ctx.fillStyle="#20313b";ctx.font="700 34px Arial";ctx.fillText(brand.name,96,y);
+      ctx.textAlign="right";ctx.fillStyle="#10736d";ctx.font="700 34px Arial";
+      ctx.fillText(b.litres.toLocaleString("en-IN",{maximumFractionDigits:2})+" L",W-100,y);
+      ctx.textAlign="left";ctx.fillStyle="#e1e9ec";ctx.fillRect(94,y+25,W-188,2);y+=105;
+    });
+    ctx.fillStyle="#ffffff";ctx.beginPath();ctx.roundRect(54,940,W-108,410,26);ctx.fill();
+    const metrics=[
+      ["TOTAL NET LITRES",latestTotals.totalQuantity.toLocaleString("en-IN",{maximumFractionDigits:2})+" L"],
+      ["MILK AMOUNT",money(latestTotals.totalAmount)],
+      ["COMMISSION",money(latestTotals.commission)],
+      ["TOTAL AMOUNT PAYABLE",money(latestTotals.netPayable)]
+    ];
+    y=1010;
+    metrics.forEach(m=>{
+      ctx.fillStyle="#71808a";ctx.font="700 23px Arial";ctx.fillText(m[0],96,y);
+      ctx.textAlign="right";ctx.fillStyle="#142b3b";ctx.font="700 32px Arial";ctx.fillText(m[1],W-100,y);ctx.textAlign="left";y+=78;
+    });
+    ctx.fillStyle="#71808a";ctx.font="20px Arial";ctx.textAlign="center";
+    ctx.fillText("Generated using Milk Indent & Billing",W/2,1400);
+    return new Promise(resolve=>canvas.toBlob(resolve,"image/png"));
+  }
+  document.getElementById("shareSummary").addEventListener("click",async()=>{
+    const button=document.getElementById("shareSummary");
+    const original=button.textContent;button.disabled=true;button.textContent="Preparing image…";
+    try{
+      const blob=await createSummaryImage();
+      if(!blob)throw new Error("Could not generate summary image");
+      const file=new File([blob],"milk-summary-"+(billDate.value||localToday())+".png",{type:"image/png"});
+      if(navigator.canShare&&navigator.canShare({files:[file]})){
+        await navigator.share({files:[file],title:"Milk Collection Summary",text:"Milk totals and billing summary"});
+      }else{
+        const url=URL.createObjectURL(blob),a=document.createElement("a");
+        a.href=url;a.download=file.name;document.body.append(a);a.click();a.remove();
+        setTimeout(()=>URL.revokeObjectURL(url),1500);
+        alert("Summary image downloaded. You can now share it through WhatsApp or another app.");
+      }
+    }catch(error){
+      if(error.name!=="AbortError"){console.error(error);alert("Unable to create or share the image. Please try again.");}
+    }finally{button.disabled=false;button.textContent=original;}
+  });
+
 })();
 </script>
 <script>
