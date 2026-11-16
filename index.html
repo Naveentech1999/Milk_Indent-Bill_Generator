@@ -20,25 +20,30 @@ header p{margin:4px 0 0;opacity:.94}
 main{padding:16px 14px 30px}
 .brand-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 .brand{background:#fff;border:1px solid var(--line);border-radius:15px;overflow:hidden;box-shadow:0 3px 14px #6b3b1710}
-.brand-head{display:flex;align-items:center;gap:12px;background:var(--pale);padding:10px 12px;min-height:76px}
-.brand-head img{display:none}
+.brand-head{display:flex;align-items:center;gap:12px;background:var(--pale);padding:10px 12px;min-height:84px}
+.brand-head img{display:block;width:76px;height:64px;object-fit:contain;object-position:center;background:#fff;border-radius:9px;padding:3px}
 .brand-head h2{margin:0;color:var(--orange);font-size:1.15rem}
 .brand-body{padding:10px 12px}
-.column-head,.milk-row{display:grid;grid-template-columns:minmax(82px,1.05fr) repeat(3,minmax(68px,.85fr));gap:7px;align-items:center}
-.column-head{font-size:.75rem;color:var(--muted);font-weight:700;padding:0 0 7px}
-.milk-row{padding:7px 0;border-top:1px solid #f8e9dc}
-.milk-name{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-weight:700;font-size:.82rem;text-align:center;min-width:0}.milk-name img{width:76px;height:76px;object-fit:contain;object-position:center;border-radius:8px;background:#fff;padding:2px;image-rendering:auto}
-.milk-row input{width:100%;min-width:0;padding:9px 5px;border:1px solid #e7c9ae;border-radius:8px;font:inherit;text-align:center;background:#fff}
+.column-head,.milk-row{display:grid;grid-template-columns:minmax(75px,1.05fr) repeat(3,minmax(62px,.8fr)) minmax(78px,.9fr);gap:6px;align-items:center}
+.column-head{font-size:.7rem;color:var(--muted);font-weight:700;padding:0 0 7px;text-align:center}
+.milk-row{padding:8px 0;border-top:1px solid #f8e9dc}
+.milk-name{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-weight:700;font-size:.82rem;text-align:center;min-width:0}
+.milk-name img{width:58px;height:66px;object-fit:contain;object-position:center;border-radius:7px;background:#fff;padding:1px}
+.milk-row input{width:100%;min-width:0;padding:9px 4px;border:1px solid #e7c9ae;border-radius:8px;font:inherit;text-align:center;background:#fff}
 .milk-row input:focus{outline:2px solid #ffbd80;border-color:var(--orange)}
+.row-amount{font-weight:800;text-align:right;color:#9a4300;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.row-amount small{display:block;color:var(--muted);font-size:.68rem;font-weight:500}
 .brand-total{display:flex;justify-content:space-between;gap:8px;margin-top:10px;padding:10px;background:#fff8f2;border:1px solid var(--line);border-radius:9px;font-weight:700}
 .brand-total span:last-child{color:var(--orange);text-align:right}
 .summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:16px}
 .metric{background:#fff;border:1px solid var(--line);border-radius:13px;padding:14px}
 .metric span{display:block;color:var(--muted);font-size:.85rem}
 .metric strong{display:block;margin-top:5px;font-size:clamp(1.1rem,3vw,1.5rem);color:var(--orange);overflow-wrap:anywhere}
+.bill-note{margin-top:12px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px}
+.bill-note strong{color:var(--ink)}
 .note{text-align:center;color:var(--muted);font-size:.82rem;margin:14px 0 0}
-@media(max-width:680px){.brand-grid{grid-template-columns:1fr}.summary{grid-template-columns:1fr}.milk-name img{width:82px;height:82px}}
-@media(max-width:360px){.column-head,.milk-row{grid-template-columns:minmax(70px,1fr) repeat(3,minmax(55px,.8fr));gap:4px}.milk-row input{padding:8px 2px;font-size:.9rem}.brand-body{padding:9px}}
+@media(max-width:680px){.brand-grid{grid-template-columns:1fr}.summary{grid-template-columns:1fr}}
+@media(max-width:390px){.column-head,.milk-row{grid-template-columns:minmax(58px,.9fr) repeat(3,minmax(48px,.75fr)) minmax(66px,.85fr);gap:4px}.milk-row input{padding:8px 2px;font-size:.86rem}.brand-body{padding:8px}.milk-name img{width:50px;height:58px}.row-amount{font-size:.84rem}}
 </style>
 </head>
 <body>
@@ -46,11 +51,12 @@ main{padding:16px 14px 30px}
 <main>
   <section class="brand-grid" id="brandGrid" aria-label="Milk brand cards"></section>
   <section class="summary" aria-label="Bill summary">
-    <div class="metric"><span>Total Amount</span><strong id="totalAmount">₹0.00</strong></div>
-    <div class="metric"><span>Commission (Total Quantity × ₹5)</span><strong id="commission">₹0.00</strong></div>
-    <div class="metric"><span>Amount After Commission</span><strong id="afterCommission">₹0.00</strong></div>
+    <div class="metric"><span>Total Milk Amount</span><strong id="totalAmount">₹0.00</strong></div>
+    <div class="metric"><span>Commission (Net Litres × ₹5)</span><strong id="commission">₹0.00</strong></div>
+    <div class="metric"><span>Final Amount After Commission</span><strong id="afterCommission">₹0.00</strong></div>
   </section>
-  <p class="note">Net quantity = Taken − Return. Commission is ₹5 per net litre. Your entries are saved on this device.</p>
+  <div class="bill-note"><strong>Calculation:</strong> Net litres = Taken − Return. Milk amount = Net litres × Price per litre. Commission = Total net litres × ₹5. Final amount = Milk amount − Commission.</div>
+  <p class="note">Amounts update automatically as you type. Your entries are saved on this device.</p>
 </main>
 <script>
 (() => {
@@ -61,29 +67,35 @@ main{padding:16px 14px 30px}
     {name:"Jersey",image:"./product-images/jersey-products.webp",types:["TM","WM"],prices:{TM:66,WM:90}}
   ];
   const productImages = {
-    Heritage:{TM:"./product-images/heritage-tm.webp",CM:"./product-images/heritage-cm.webp",SM:"./product-images/heritage-sm.webp",WM:"./product-images/heritage-wm.webp",Small:"./product-images/heritage-small.webp"},
-    Vijaya:{TM:"./product-images/vijaya-tm.webp",CM:"./product-images/vijaya-cm.webp",SM:"./product-images/vijaya-sm.webp",WM:"./product-images/vijaya-wm.webp"},
-    Amul:{TM:"./product-images/amul-tm.webp",A2:"./product-images/amul-a2.webp",Gold:"./product-images/amul-gold.webp"},
-    Jersey:{TM:"./product-images/jersey-tm.webp",WM:"./product-images/jersey-wm.webp"}
+    Heritage:{TM:"./product-images/heritage-products.webp",CM:"./product-images/heritage-products.webp",SM:"./product-images/heritage-products.webp",WM:"./product-images/heritage-products.webp",Small:"./product-images/heritage-products.webp"},
+    Vijaya:{TM:"./product-images/vijaya-products.webp",CM:"./product-images/vijaya-products.webp",SM:"./product-images/vijaya-products.webp",WM:"./product-images/vijaya-products.webp"},
+    Amul:{TM:"./product-images/amul-products.webp",A2:"./product-images/amul-products.webp",Gold:"./product-images/amul-products.webp"},
+    Jersey:{TM:"./product-images/jersey-products.webp",WM:"./product-images/jersey-products.webp"}
   };
-  const storageKey="milkIndentCalculator.v2";
+  const storageKey="milkIndentCalculator.v3";
   let values={};
   try{values=JSON.parse(localStorage.getItem(storageKey)||"{}")||{};}catch(e){values={};}
-  const money=n=>"₹"+n.toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2});
-  const number=v=>Math.max(0,Number(v)||0);
+  const money=n=>"₹"+(Number.isFinite(n)?n:0).toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2});
+  const number=v=>{const n=Number(v);return Number.isFinite(n)?Math.max(0,n):0;};
   const key=(brand,type)=>brand+"|"+type;
   const get=(brand,type)=>values[key(brand,type)]||{price:String(brands.find(b=>b.name===brand)?.prices?.[type]??""),taken:"",returned:""};
-  function save(){try{localStorage.setItem(storageKey,JSON.stringify(values));}catch(e){}}
+  function save(){try{localStorage.setItem(storageKey,JSON.stringify(values));}catch(e){console.warn("Could not save calculator entries",e);}}
+  function rowTotals(brand,type){
+    const d=get(brand,type);
+    const net=Math.max(0,number(d.taken)-number(d.returned));
+    const rate=number(d.price);
+    return {net,rate,amount:net*rate};
+  }
   function calculate(){
     let totalAmount=0,totalQuantity=0;
     brands.forEach(brand=>{
       let brandQuantity=0,brandAmount=0;
       brand.types.forEach(type=>{
-        const d=get(brand.name,type);
-        const net=Math.max(0,number(d.taken)-number(d.returned));
-        const amount=net*number(d.price);
-        brandQuantity+=net;brandAmount+=amount;
-        totalQuantity+=net;totalAmount+=amount;
+        const t=rowTotals(brand.name,type);
+        brandQuantity+=t.net;brandAmount+=t.amount;
+        totalQuantity+=t.net;totalAmount+=t.amount;
+        const amountNode=document.querySelector('[data-row-amount="'+key(brand.name,type)+'"]');
+        if(amountNode){amountNode.textContent=money(t.amount);const detail=amountNode.querySelector("small");if(detail)detail.textContent=t.net.toLocaleString("en-IN",{maximumFractionDigits:2})+" L";}
       });
       const q=document.querySelector('[data-brand-qty="'+brand.name+'"]');
       const a=document.querySelector('[data-brand-amount="'+brand.name+'"]');
@@ -100,21 +112,26 @@ main{padding:16px 14px 30px}
     brands.forEach(brand=>{
       const card=document.createElement("article");card.className="brand";
       const head=document.createElement("div");head.className="brand-head";
+      const brandImg=document.createElement("img");brandImg.src=brand.image;brandImg.alt=brand.name+" milk products";brandImg.loading="lazy";brandImg.decoding="async";
       const title=document.createElement("h2");title.textContent=brand.name;
-      head.append(title);card.append(head);
+      head.append(brandImg,title);card.append(head);
       const body=document.createElement("div");body.className="brand-body";
       const headings=document.createElement("div");headings.className="column-head";
-      ["Milk Type","Price/Litre","Taken","Return"].forEach(label=>{const s=document.createElement("span");s.textContent=label;headings.append(s);});
+      ["Milk Type","Price/Litre","Taken (L)","Return (L)","Amount"].forEach(label=>{const s=document.createElement("span");s.textContent=label;headings.append(s);});
       body.append(headings);
       brand.types.forEach(type=>{
         const d=get(brand.name,type);
         const row=document.createElement("div");row.className="milk-row";
-        const name=document.createElement("div");name.className="milk-name";const productImg=document.createElement("img");productImg.src=productImages[brand.name]?.[type]||"";productImg.alt=brand.name+" "+type+" milk";const label=document.createElement("span");label.textContent=type;name.append(productImg,label);row.append(name);
-        [["price","Price per litre","0.00"],["taken","Taken in litres","0"],["returned","Returned in litres","0"]].forEach(([field,label,placeholder])=>{
-          const input=document.createElement("input");input.type="number";input.min="0";input.step="0.01";input.inputMode="decimal";input.placeholder=placeholder;input.value=d[field]||"";input.setAttribute("aria-label",brand.name+" "+type+" "+label);
-          input.addEventListener("input",()=>{if(!values[key(brand.name,type)])values[key(brand.name,type)]={price:"",taken:"",returned:""};values[key(brand.name,type)][field]=input.value;save();calculate();});
+        const name=document.createElement("div");name.className="milk-name";
+        const productImg=document.createElement("img");productImg.src=productImages[brand.name]?.[type]||brand.image;productImg.alt=brand.name+" "+type+" milk";productImg.loading="lazy";productImg.decoding="async";
+        const label=document.createElement("span");label.textContent=type;name.append(productImg,label);row.append(name);
+        [["price","Price per litre","0.00"],["taken","Taken in litres","0"],["returned","Returned in litres","0"]].forEach(([field,ariaLabel,placeholder])=>{
+          const input=document.createElement("input");input.type="number";input.min="0";input.step="0.01";input.inputMode="decimal";input.placeholder=placeholder;input.value=d[field]||"";input.setAttribute("aria-label",brand.name+" "+type+" "+ariaLabel);
+          input.addEventListener("input",()=>{const k=key(brand.name,type);if(!values[k])values[k]={...get(brand.name,type)};values[k][field]=input.value;save();calculate();});
           row.append(input);
         });
+        const amount=document.createElement("div");amount.className="row-amount";amount.dataset.rowAmount=key(brand.name,type);amount.textContent=money(0);
+        const litres=document.createElement("small");litres.textContent="0 L";amount.append(litres);row.append(amount);
         body.append(row);
       });
       const total=document.createElement("div");total.className="brand-total";
