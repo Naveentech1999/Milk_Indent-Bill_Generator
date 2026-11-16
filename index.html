@@ -3,57 +3,43 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#ef6c00">
+<meta name="theme-color" content="#142b3b">
 <meta name="description" content="One-page milk indent calculator for Heritage, Vijaya, Amul and Jersey.">
 <link rel="manifest" href="./manifest.json">
 <link rel="icon" href="./icons/milk-app.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="./icons/milk-app.svg">
 <title>Milk Indent Calculator</title>
 <style>
-:root{--orange:#ef6c00;--pale:#fff0e0;--ink:#2b2118;--muted:#76685d;--line:#f0d9c5;--bg:#fff8f2;--white:#fff}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-header{background:var(--orange);color:#fff;padding:20px 16px}
-header .wrap,main{max-width:1100px;margin:auto}
-h1{font-size:clamp(1.45rem,4vw,2rem);margin:0}
-header p{margin:4px 0 0;opacity:.94}
-main{padding:16px 14px 30px}
-.brand-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.brand{background:#fff;border:1px solid var(--line);border-radius:15px;overflow:hidden;box-shadow:0 3px 14px #6b3b1710}
-.brand-head{display:flex;align-items:center;gap:12px;background:var(--pale);padding:10px 12px;min-height:84px}
-.brand-head img{display:none}
-.brand-head h2{margin:0;color:var(--orange);font-size:1.15rem}
-.brand-body{padding:10px 12px}
-.column-head,.milk-row{display:grid;grid-template-columns:minmax(75px,1.05fr) repeat(3,minmax(62px,.8fr)) minmax(78px,.9fr);gap:6px;align-items:center}
-.column-head{font-size:.7rem;color:var(--muted);font-weight:700;padding:0 0 7px;text-align:center}
-.milk-row{padding:8px 0;border-top:1px solid #f8e9dc}
-.milk-name{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-weight:700;font-size:.82rem;text-align:center;min-width:0}
-.milk-name img{width:76px;height:82px;object-fit:contain;object-position:center;border-radius:8px;background:#fff;padding:2px;image-rendering:auto}
-.milk-row input{width:100%;min-width:0;padding:9px 4px;border:1px solid #e7c9ae;border-radius:8px;font:inherit;text-align:center;background:#fff}
-.milk-row input:focus{outline:2px solid #ffbd80;border-color:var(--orange)}
-.row-amount{font-weight:800;text-align:right;color:#9a4300;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
-.row-amount small{display:block;color:var(--muted);font-size:.68rem;font-weight:500}
-.brand-total{display:flex;justify-content:space-between;gap:8px;margin-top:10px;padding:10px;background:#fff8f2;border:1px solid var(--line);border-radius:9px;font-weight:700}
-.brand-total span:last-child{color:var(--orange);text-align:right}
-.summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:16px}
-.metric{background:#fff;border:1px solid var(--line);border-radius:13px;padding:14px}
-.metric span{display:block;color:var(--muted);font-size:.85rem}
-.metric strong{display:block;margin-top:5px;font-size:clamp(1.1rem,3vw,1.5rem);color:var(--orange);overflow-wrap:anywhere}
-.bill-note{margin-top:12px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px}
-.bill-note strong{color:var(--ink)}
-.note{text-align:center;color:var(--muted);font-size:.82rem;margin:14px 0 0}
-@media(max-width:680px){.brand-grid{grid-template-columns:1fr}.summary{grid-template-columns:1fr}}
-@media(max-width:390px){.column-head,.milk-row{grid-template-columns:minmax(58px,.9fr) repeat(3,minmax(48px,.75fr)) minmax(66px,.85fr);gap:4px}.milk-row input{padding:8px 2px;font-size:.86rem}.brand-body{padding:8px}.milk-name img{width:64px;height:70px}.row-amount{font-size:.84rem}}
+:root{--navy:#142b3b;--navy-2:#1d3c50;--teal:#168b83;--teal-dark:#10736d;--mint:#e8f5f2;--ink:#20313b;--muted:#71808a;--line:#e1e9ec;--bg:#f3f6f8;--white:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+header{background:linear-gradient(120deg,var(--navy),var(--navy-2));color:#fff;padding:22px 20px;box-shadow:0 5px 20px #102c3c20}header .wrap,main{max-width:1180px;margin:auto}
+.header-row{display:flex;align-items:center;gap:14px}.app-mark{width:48px;height:48px;flex:0 0 48px;border-radius:15px;background:#ffffff16;display:grid;place-items:center;border:1px solid #ffffff2b}.app-mark svg{width:29px;height:29px}
+h1{font-size:clamp(1.35rem,3vw,1.8rem);letter-spacing:-.035em;margin:0;font-weight:750}header p{margin:4px 0 0;color:#c6d7df;font-size:.9rem}
+main{padding:24px 18px 40px}.brand-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.brand{background:var(--white);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 5px 18px #1838470a;transition:transform .18s ease,box-shadow .18s ease}.brand:hover{transform:translateY(-2px);box-shadow:0 10px 26px #18384712}
+.brand-head{display:flex;align-items:center;gap:12px;background:#f8fbfc;padding:15px 17px;min-height:68px;border-bottom:1px solid var(--line)}.brand-head:before{content:"";width:4px;height:28px;border-radius:8px;background:var(--teal)}.brand-head h2{margin:0;color:var(--navy);font-size:1.05rem;font-weight:750;letter-spacing:-.015em}
+.brand-body{padding:14px 16px 16px}.column-head,.milk-row{display:grid;grid-template-columns:minmax(84px,1.05fr) repeat(3,minmax(65px,.8fr)) minmax(82px,.9fr);gap:8px;align-items:center}
+.column-head{font-size:.68rem;color:var(--muted);font-weight:750;padding:0 0 9px;text-align:center;text-transform:uppercase;letter-spacing:.045em}.milk-row{padding:10px 0;border-top:1px solid #edf1f3}
+.milk-name{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;font-weight:700;font-size:.78rem;text-align:center;min-width:0;color:#334854}.milk-name img{width:68px;height:72px;object-fit:contain;object-position:center;border-radius:10px;background:#fff;padding:2px;image-rendering:auto}
+.milk-row input{width:100%;min-width:0;padding:10px 5px;border:1px solid #dbe4e8;border-radius:9px;font:inherit;text-align:center;background:#fbfcfd;color:var(--ink);transition:border .15s,box-shadow .15s}.milk-row input:focus{outline:0;border-color:var(--teal);box-shadow:0 0 0 3px #168b831b;background:#fff}
+.row-amount{font-weight:800;text-align:right;color:var(--teal-dark);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}.row-amount small{display:block;color:var(--muted);font-size:.67rem;font-weight:550}
+.brand-total{display:flex;justify-content:space-between;gap:8px;margin-top:13px;padding:11px 13px;background:var(--mint);border:1px solid #d5ebe6;border-radius:11px;font-weight:700;color:#345a58}.brand-total span:last-child{color:var(--teal-dark);text-align:right}
+.summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:20px}.metric{position:relative;background:#fff;border:1px solid var(--line);border-radius:16px;padding:17px 18px 18px;box-shadow:0 4px 16px #18384708;min-height:112px}
+.metric span{display:block;color:var(--muted);font-size:.8rem;font-weight:650}.metric strong{display:block;margin-top:7px;font-size:clamp(1.2rem,2.7vw,1.65rem);letter-spacing:-.025em;color:var(--navy);overflow-wrap:anywhere;font-variant-numeric:tabular-nums}.metric:first-child strong{color:var(--teal-dark)}.metric:before{content:"";position:absolute;top:0;left:18px;width:34px;height:3px;background:var(--teal);border-radius:0 0 4px 4px}
+.bill-note{margin-top:15px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px 17px;color:#53646e;font-size:.86rem}.bill-note strong{color:var(--navy)}.note{text-align:center;color:var(--muted);font-size:.8rem;margin:16px 0 0}
+@media(max-width:700px){.brand-grid{grid-template-columns:1fr}.summary{grid-template-columns:1fr}.metric{min-height:auto}}
+@media(max-width:420px){main{padding:16px 10px 28px}.brand-body{padding:10px}.column-head,.milk-row{grid-template-columns:minmax(58px,.9fr) repeat(3,minmax(47px,.75fr)) minmax(66px,.85fr);gap:4px}.column-head{font-size:.58rem;letter-spacing:0}.milk-row input{padding:9px 2px;font-size:.82rem}.milk-name img{width:58px;height:64px}.row-amount{font-size:.8rem}.brand-total{font-size:.82rem}}
+@media(prefers-reduced-motion:reduce){.brand{transition:none}.brand:hover{transform:none}}
 </style>
 </head>
 <body>
-<header><div class="wrap"><h1>Milk Indent Calculator</h1><p>Enter price per litre, quantity taken and returned for each milk type.</p></div></header>
+<header><div class="wrap"><div class="header-row"><div class="app-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M11 3h10v5l3 5v13a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2V13l3-5V3Z" stroke="white" stroke-width="1.8" stroke-linejoin="round"/><path d="M11 8h10M9 14h14" stroke="#8ee0d4" stroke-width="1.8" stroke-linecap="round"/><path d="M16 15c-2.5 3.1-4 4.8-4 6.8a4 4 0 0 0 8 0c0-2-1.5-3.7-4-6.8Z" fill="#8ee0d4"/></svg></div><div><h1>Milk Indent &amp; Billing</h1><p>Milk quantities, returns and daily billing — all in one place</p></div></div></div></header>
 <main>
   <section class="brand-grid" id="brandGrid" aria-label="Milk brand cards"></section>
   <section class="summary" aria-label="Bill summary">
-    <div class="metric"><span>Total Milk Amount</span><strong id="totalAmount">₹0.00</strong></div>
-    <div class="metric"><span>Commission (Net Litres × ₹5)</span><strong id="commission">₹0.00</strong></div>
-    <div class="metric"><span>Final Amount After Commission</span><strong id="afterCommission">₹0.00</strong></div>
+    <div class="metric"><span>Milk Subtotal</span><strong id="totalAmount">₹0.00</strong></div>
+    <div class="metric"><span>Delivery Commission · Net litres × ₹5</span><strong id="commission">₹0.00</strong></div>
+    <div class="metric"><span>Net Payable Amount</span><strong id="afterCommission">₹0.00</strong></div>
   </section>
   <div class="bill-note"><strong>Calculation:</strong> Net litres = Taken − Return. Milk amount = Net litres × Price per litre. Commission = Total net litres × ₹5. Final amount = Milk amount − Commission.</div>
   <p class="note">Amounts update automatically as you type. Your entries are saved on this device.</p>
