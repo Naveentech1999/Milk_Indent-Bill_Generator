@@ -1,5 +1,5 @@
-const CACHE_NAME = "milk-indent-shell-v8";
-const APP_SHELL = ["./", "./index.html", "./manifest.json", "./icons/milk-app.svg", "./product-images/heritage-products.webp", "./product-images/vijaya-products.webp", "./product-images/amul-products.webp", "./product-images/jersey-products.webp"];
+const CACHE_NAME = "milk-indent-shell-v9";
+const APP_SHELL = ["./", "./index.html", "./manifest.json", "./icons/milk-app.svg", "./product-images/heritage-products.webp", "./product-images/vijaya-products.webp", "./product-images/amul-products.webp", "./product-images/jersey-products.webp", "./product-images/clear-individual-milk-images.zip"];
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_SHELL)).then(() => self.skipWaiting()));
 });
